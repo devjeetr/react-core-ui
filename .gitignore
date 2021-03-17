@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# from vitejs
+.DS_Store
+dist-ssr
+*.local
+
