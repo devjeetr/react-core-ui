@@ -148,18 +148,22 @@ export const useSearchableSelect = <T>(
   );
 
   const getItemProps = useCallback(
-    (i: number) => ({
-      selected: currentItems[i] === selected,
-      highlighted: i === state.highlighted,
+    (index: number) => ({
+      selected: currentItems[index] === selected,
+      highlighted: index === state.highlighted,
       onMouseEnter: () => {
-        dispatch(SelectActions.highlight_item({ index: i }));
+        dispatch(SelectActions.highlight_item({ index }));
       },
       onClick: () => {
         const defaultHandler = () => {
           dispatch(SelectActions.reset_on_select({ nItems: items.length }));
         };
         if (onSelect) {
-          onSelect(items[state.filtered_indices[i]], dispatch, defaultHandler);
+          onSelect(
+            items[state.filtered_indices[index]],
+            dispatch,
+            defaultHandler
+          );
         } else {
           defaultHandler();
         }
