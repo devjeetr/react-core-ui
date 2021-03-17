@@ -5,6 +5,7 @@ import {
   useCallback,
   ChangeEvent,
   useEffect,
+  HTMLProps,
 } from "react";
 import { isNil } from "ramda";
 
@@ -33,10 +34,10 @@ export const useCheckbox = ({
       inputRef.current = e;
       // update user supplied ref
       if (ref) {
-        if (typeof ref == "function") {
+        if (typeof ref === "function") {
           ref(e);
         } else {
-          ref.current = e;
+          ref.current = e; // eslint-disable-line no-param-reassign
         }
       }
     },
@@ -80,7 +81,7 @@ export const useCheckbox = ({
   });
 
   const getInputProps = useCallback(
-    (props?: Record<string, any>) => ({
+    (props?: Record<string, HTMLProps<HTMLInputElement>>) => ({
       ref: inputCallbackRef,
       type: "checkbox",
       name,
@@ -95,16 +96,16 @@ export const useCheckbox = ({
       },
       ...props,
     }),
-    [name, value, inputCallbackRef]
+    [name, value, checked, inputCallbackRef, internalOnChange]
   );
 
   const getLabelProps = useCallback(
-    (props?: Record<string, any>) => ({
+    <T extends HTMLElement>(props?: Record<string, HTMLProps<T>>) => ({
       ref: containerRef,
       name,
       ...props,
     }),
-    []
+    [name]
   );
   return { getInputProps, getLabelProps };
 };
